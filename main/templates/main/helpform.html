@@ -1,0 +1,19 @@
+{% extends 'main/header.html' %}
+
+{% block content %}
+{% load materializecss %}
+
+  <h3>Submit A Help Request</h3>
+  <br>
+  <div class="container">
+    <form method="POST">
+      {% csrf_token %}
+      {{form.as_p}}
+      <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+        <i class="material-icons right">send</i>
+      </button>
+    </form>
+    Don't have an account? <a href="/register" target="blank"><strong>Register Here!</strong></a>
+    <br><br><br>
+  </div>
+{% endblock %}

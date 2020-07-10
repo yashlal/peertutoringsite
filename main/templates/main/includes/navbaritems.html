@@ -1,0 +1,14 @@
+<ul id="nav-mobile" class="left hide-on-med-and-down">
+  <li><a href="/home" class="active">Home</a></li>
+  <li><a href="/community" class="active">Community</a></li>
+  <li><a href="/helpform">Help Form</a>
+</ul>
+<ul id="nav-mobile" class="right hide-on-med-and-down">
+  {% if user.is_authenticated %}
+    <li><a href="/profile" class="active">{{user.username}}</a></li>
+    <li><a href="/logout" class="active">Logout</a></li>
+  {% else %}
+    <li><a href="/login" class="active">Login</a></li>
+    <li><a href="/register" class="active">Register</a></li>
+  {% endif %}
+</ul>

@@ -1,0 +1,29 @@
+{% extends 'main/header.html' %}
+
+{% block content %}
+
+    <div class="container">
+      <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+          <p>
+            {{ field.label_tag }}<br>
+            {{ field }}
+            <br>
+            {% if field.help_text %}
+              <small style="color: grey">{{ field.help_text }}</small>
+              <br><br><br>
+            {% endif %}
+            {% for error in field.errors %}
+              <p style="color: red">{{ error }}</p>
+            {% endfor %}
+          </p>
+        {% endfor %}
+        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+          <i class="material-icons right">send</i>
+        </button>
+      </form>
+        Don't have an account? <a href="/register" target="blank"><strong>Register Here!</strong></a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+  <div class="row">
+    {% for req in requests %}
+        <div class="col s12">
+          <div class="card brown">
+            <div class="card-content white-text">
+              <span class="card-title">{{req.subject}}</span>
+              <p>Author: {{req.author}}</p>
+              <p>Grade {{req.grade_level}}</p>
+              <p>{{req.dt}}</p>
+              <hr>
+              <p>{{req.content}}</p>
+            </div>
+            <div class="card-action">
+              <a href="#">This is a link</a>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+  </div>
+{% endblock %}
