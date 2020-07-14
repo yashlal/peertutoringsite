@@ -43,6 +43,8 @@ def community(request):
         category_key = request.GET.get('category_key')
         if category_key == None:
             return render(request=request, template_name="main/community.html", context={'requests': Request.objects.all, 'categories': Category.objects.all()})
+        elif category_key == "all":
+            return render(request=request, template_name="main/community.html", context={'requests': Request.objects.all, 'categories': Category.objects.all()})
         else:
             for i in range(0, len(Request.objects.all())):
                 if Request.objects.all()[i].category.name == category_key:
