@@ -34,8 +34,15 @@ class Tutor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     subjects = models.ManyToManyField(Category, related_name = "potential_tutors")
 
+    def get_username(self):
+        return ("%s" % (self.user.username))
+    get_username.short_description = "Username"
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
+    def get_username(self):
+        return ("%s" % (self.user.username))
+    get_username.short_description = "Username"
 
 class Request(models.Model):
     subject = models.CharField(max_length = 200)

@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Request, Category
-from .forms import HelpForm, RealUserCreationForm
+from .forms import HelpForm, TutorCreationForm, StudentCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from datetime import datetime
 from django.contrib import messages
 # Create your views here.
+
+def register_main(request):
+    return render(request=request, template_name="main/register_main.html", context={})
 
 def logout_request(request):
     logout(request)
@@ -74,21 +77,42 @@ def helpform(request):
     form = HelpForm()
     return render(request=request, template_name="main/helpform.html", context = {"form": form})
 
-def register(request):
+def register_student(request):
     if request.method == "POST":
-        form = RealUserCreationForm(request.POST)
+        form = StudentCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get("username")
             login(request,user)
+            messages.success(request, f"Successfully registered as {username}!")
             messages.success(request, f"Logged in as {username}!")
             return redirect("/home")
         else:
             for msg in form.error_messages:
                 messages.error(request, f"{form.error_messages[msg]}")
             return render(request = request,
-                          template_name = "main/register.html",
+                          template_name = "main/register_student.html",
                           context={"form":form})
 
-    form = RealUserCreationForm
-    return render(request=request, template_name="main/register.html", context={'form': form})
+    form = StudentCreationForm
+    return render(request=request, template_name="main/register_student.html", context={'form': form})
+
+def register_tutor(request):
+    if request.method == "POST":
+        form = TutorCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get("username")
+            login(request,user)
+            messages.success(request, f"Successfully registered as {username}!")
+            messages.success(request, f"Logged in as {username}!")
+            return redirect("/home")
+        else:
+            for msg in form.error_messages:
+                messages.error(request, f"{form.error_messages[msg]}")
+            return render(request = request,
+                          template_name = "main/register_tutor.html",
+                          context={"form":form})
+
+    form = TutorCreationForm
+    return render(request=request, template_name="main/register_tutor.html", context={'form': form})

@@ -1,5 +1,5 @@
 from django import forms
-from .models import IntegerRangeField, Request, Category, Tutor
+from .models import IntegerRangeField, Request, Category, Tutor, Student
 from django.contrib.auth.forms import UserCreationForm
 from .models import User
 from django.db import transaction
@@ -20,7 +20,7 @@ class HelpForm(forms.ModelForm):
             super().__init__(*args, **kwargs)
             self.label_suffix = ""
 
-class RealUserCreationForm(UserCreationForm):
+class TutorCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
     subjects = forms.ModelMultipleChoiceField(queryset=Category.objects.all(), widget=forms.CheckboxSelectMultiple, required=True)
 
@@ -36,4 +36,21 @@ class RealUserCreationForm(UserCreationForm):
         user.save()
         tutor = Tutor.objects.create(user=user)
         tutor.subjects.add(*self.cleaned_data.get('subjects'))
+        return user
+
+
+class StudentCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
+
+    @transaction.atomic
+    def save(self):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data["email"]
+        user.is_student = True
+        user.save()
+        tutor = Student.objects.create(user=user)
         return user

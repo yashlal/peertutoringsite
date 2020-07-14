@@ -1,3 +1,7 @@
+html, body, .my-wrapper {
+  height: 100%;
+}
+
 .materialize-red {
   background-color: #e51c23 !important; }
 
@@ -3930,9 +3934,19 @@ button.btn-floating {
 
 .btn-large {
   height: 54px;
+  width: auto;
   line-height: 54px;
   font-size: 15px;
-  padding: 0 28px; }
+  padding: 0 28px }
+  .btn-large i {
+    font-size: 1.6rem; }
+
+.btn-large.thick {
+  height: 162px;
+  width: auto;
+  line-height: 162px;
+  font-size: 30px;
+  padding: 0 84px }
   .btn-large i {
     font-size: 1.6rem; }
 
