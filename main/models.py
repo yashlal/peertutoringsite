@@ -32,6 +32,8 @@ class Tutor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     subjects = models.ManyToManyField(Category, related_name = "potential_tutors")
 
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
 class Request(models.Model):
     subject = models.CharField(max_length = 200)
