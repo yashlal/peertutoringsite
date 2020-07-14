@@ -17,6 +17,8 @@ class IntegerRangeField(models.IntegerField):
 class User(AbstractUser):
     is_student = models.BooleanField(default=False)
     is_tutor = models.BooleanField(default=False)
+    email = models.EmailField(unique=True)
+
 
 class Category(models.Model):
     name = models.CharField(max_length = 200)
