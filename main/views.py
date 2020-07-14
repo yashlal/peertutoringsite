@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Request, User
+from .models import Request, Category
 from .forms import HelpForm, RealUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
@@ -38,7 +38,18 @@ def homepage(request):
     #return HttpResponse("aba")
 
 def community(request):
-    return render(request=request, template_name="main/community.html", context={'requests': Request.objects.all})
+    filtered_requests = []
+    if request.method == "GET":
+        category_key = request.GET.get('category_key')
+        if category_key == None:
+            return render(request=request, template_name="main/community.html", context={'requests': Request.objects.all, 'categories': Category.objects.all()})
+        else:
+            for i in range(0, len(Request.objects.all())):
+                if Request.objects.all()[i].category.name == category_key:
+                    filtered_requests.append(Request.objects.all()[i])
+            messages.success(request, "Sorted for " + str(category_key))
+            print(category_key)
+            return render(request=request, template_name="main/community.html", context={'requests': filtered_requests, 'categories': Category.objects.all()})
 
 def helpform(request):
     if request.method == "POST":

@@ -1,6 +1,20 @@
 {% extends "main/header.html" %}
 
 {% block content %}
+  <br>
+  <form action="." method="GET">
+    <div class="input-field col s12">
+       <select name="category_key">
+         <option value="" disabled selected>Choose your option</option>
+          {% for c in categories %}
+            <option value="{{c.name}}">{{c.name}}</option>
+          {% endfor %}
+       </select>
+       <label>Sort By Catgeory</label>
+     </div>
+     <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+
   <div class="row">
     {% for req in requests %}
         <div class="col s12">
