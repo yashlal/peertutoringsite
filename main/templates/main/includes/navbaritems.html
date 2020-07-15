@@ -1,7 +1,11 @@
 <ul id="nav-mobile" class="left hide-on-med-and-down">
   <li><a href="/home" class="active">Home</a></li>
-  <li><a href="/community" class="active">Community</a></li>
-  <li><a href="/helpform">Help Form</a>
+  {% if user.is_student %}
+    <li><a href="/helpform">Help Form</a>
+  {% endif %}
+  {% if user.is_tutor %}
+    <li><a href="/community" class="active">Community</a></li>
+  {% endif %}
 </ul>
 <ul id="nav-mobile" class="right hide-on-med-and-down">
   {% if user.is_authenticated %}

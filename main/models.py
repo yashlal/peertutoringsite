@@ -19,6 +19,12 @@ class User(AbstractUser):
     is_tutor = models.BooleanField(default=False)
     email = models.EmailField(unique=True)
 
+    def check_student(self):
+        if self.is_student: return True
+        else: return False
+    def check_tutor(self):
+        if self.is_tutor: return True
+        else: return False
 
 class Category(models.Model):
     name = models.CharField(max_length = 200)
