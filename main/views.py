@@ -46,18 +46,35 @@ def community(request):
     filtered_requests = []
     if request.method == "GET":
         category_key = request.GET.get('category_key')
-        if category_key == None:
-            return render(request=request, template_name="main/community.html", context={'requests': Request.objects.all, 'categories': Category.objects.all()})
-        elif category_key == "all":
-            return render(request=request, template_name="main/community.html", context={'requests': Request.objects.all, 'categories': Category.objects.all()})
-        else:
+        recommended_flag = request.GET.get('recommended')
+
+        if recommended_flag == None:
+
+            if category_key == None:
+                messages.error(request, "No Selection Chosen")
+                return render(request=request, template_name="main/community.html", context={'requests': Request.objects.all, 'categories': Category.objects.all()})
+            elif category_key == "all":
+                messages.info(request, "Displaying All Requests")
+                return render(request=request, template_name="main/community.html", context={'requests': Request.objects.all, 'categories': Category.objects.all()})
+            else:
+                for i in range(0, len(Request.objects.all())):
+                    if Request.objects.all()[i].category.name == category_key:
+                        filtered_requests.append(Request.objects.all()[i])
+                messages.success(request, "Sorted for " + str(category_key))
+                return render(request=request, template_name="main/community.html", context={'requests': filtered_requests, 'categories': Category.objects.all()})
+        elif recommended_flag == "recommended":
+            l = []
+
+            for i in request.user.user_reverse.subjects.all():
+                l.append(i.name)
+
             for i in range(0, len(Request.objects.all())):
-                if Request.objects.all()[i].category.name == category_key:
+                if Request.objects.all()[i].category.name in l:
                     filtered_requests.append(Request.objects.all()[i])
-            messages.success(request, "Sorted for " + str(category_key))
-            print(category_key)
+
             return render(request=request, template_name="main/community.html", context={'requests': filtered_requests, 'categories': Category.objects.all()})
 
+@user_passes_test(User.check_student, '/home')
 def helpform(request):
     if request.method == "POST":
         form = HelpForm(request.POST)

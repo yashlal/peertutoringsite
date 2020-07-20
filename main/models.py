@@ -20,11 +20,14 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
 
     def check_student(self):
-        if self.is_student: return True
+        if self.is_student: return True 
         else: return False
     def check_tutor(self):
         if self.is_tutor: return True
         else: return False
+    def get_tutor(self):
+        if self.is_tutor:
+            return self.user_reverse()
 
 class Category(models.Model):
     name = models.CharField(max_length = 200)
@@ -37,7 +40,7 @@ class Category(models.Model):
         return self.name
 
 class Tutor(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="user_reverse")
     subjects = models.ManyToManyField(Category, related_name = "potential_tutors")
 
     def get_username(self):

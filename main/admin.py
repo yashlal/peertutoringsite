@@ -19,7 +19,7 @@ class UserAdmin(admin.ModelAdmin):
     list_filter = ('is_staff', 'is_superuser', 'is_student', 'is_tutor')
 
 class TutorAdmin(admin.ModelAdmin):
-    fields = ['user']
+    fields = ['user', 'subjects']
     list_display = ['get_username']
 
 class StudentAdmin(admin.ModelAdmin):
