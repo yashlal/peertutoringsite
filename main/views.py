@@ -9,6 +9,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 # Create your views here.
 
+def profile(request):
+    return render(request=request, template_name="main/profile.html", context={})
+
 def register_main(request):
     return render(request=request, template_name="main/register_main.html", context={})
 
@@ -51,7 +54,7 @@ def community(request):
         if recommended_flag == None:
 
             if category_key == None:
-                messages.error(request, "No Selection Chosen")
+                #messages.error(request, "No Selection Chosen")
                 return render(request=request, template_name="main/community.html", context={'requests': Request.objects.all, 'categories': Category.objects.all()})
             elif category_key == "all":
                 messages.info(request, "Displaying All Requests")
@@ -71,7 +74,7 @@ def community(request):
             for i in range(0, len(Request.objects.all())):
                 if Request.objects.all()[i].category.name in l:
                     filtered_requests.append(Request.objects.all()[i])
-
+            messages.success(request, "Showing your recommended")
             return render(request=request, template_name="main/community.html", context={'requests': filtered_requests, 'categories': Category.objects.all()})
 
 @user_passes_test(User.check_student, '/home')
