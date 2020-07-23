@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Request, User, Category, Tutor, Student
+from .models import Request, User, Category, Tutor, Student, Subject
 
 # Register your models here.
 class RequestAdmin(admin.ModelAdmin):
@@ -13,6 +13,7 @@ admin.site.register(Request, RequestAdmin)
 
 admin.site.register(Category)
 
+admin.site.register(Subject)
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('username', 'email', 'is_student', 'is_tutor')

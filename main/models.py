@@ -20,7 +20,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
 
     def check_student(self):
-        if self.is_student: return True 
+        if self.is_student: return True
         else: return False
     def check_tutor(self):
         if self.is_tutor: return True
@@ -32,9 +32,15 @@ class User(AbstractUser):
 class Category(models.Model):
     name = models.CharField(max_length = 200)
 
-
     class Meta:
         verbose_name_plural = "Categories"
+
+    def __str__(self):
+        return self.name
+
+class Subject(models.Model):
+    name = models.CharField(max_length = 200)
+    category = models.ForeignKey(Category, default=1, verbose_name="Category", on_delete=models.SET_DEFAULT)
 
     def __str__(self):
         return self.name
@@ -46,6 +52,7 @@ class Tutor(models.Model):
     def get_username(self):
         return ("%s" % (self.user.username))
     get_username.short_description = "Username"
+
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
