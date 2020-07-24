@@ -47,7 +47,7 @@ class Subject(models.Model):
 
 class Tutor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="user_reverse")
-    subjects = models.ManyToManyField(Category, related_name = "potential_tutors")
+    subjects = models.ManyToManyField(Subject, related_name = "potential_tutors")
 
     def get_username(self):
         return ("%s" % (self.user.username))

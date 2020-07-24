@@ -22,11 +22,11 @@ class HelpForm(forms.ModelForm):
 
 class TutorCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    subjects = forms.ModelMultipleChoiceField(queryset=Category.objects.all(), widget=forms.CheckboxSelectMultiple, required=True)
+    #subjects = forms.ModelMultipleChoiceField(queryset=Category.objects.all(), widget=forms.CheckboxSelectMultiple, required=True)
 
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2", 'subjects')
+        fields = ("username", "email", "password1", "password2")
 
     @transaction.atomic
     def save(self):
@@ -35,7 +35,7 @@ class TutorCreationForm(UserCreationForm):
         user.is_tutor = True
         user.save()
         tutor = Tutor.objects.create(user=user)
-        tutor.subjects.add(*self.cleaned_data.get('subjects'))
+        #tutor.subjects.add(*self.cleaned_data.get('subjects'))
         return user
 
 
@@ -52,5 +52,5 @@ class StudentCreationForm(UserCreationForm):
         user.email = self.cleaned_data["email"]
         user.is_student = True
         user.save()
-        tutor = Student.objects.create(user=user)
+        student = Student.objects.create(user=user)
         return user
