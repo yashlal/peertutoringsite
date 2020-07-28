@@ -1,27 +1,9 @@
-import warnings
-from itertools import chain
-
-from django.core.exceptions import (
-    NON_FIELD_ERRORS, FieldError, ImproperlyConfigured, ValidationError,
-)
-from django.forms.fields import ChoiceField, Field
-from django.forms.forms import BaseForm, DeclarativeFieldsMetaclass
-from django.forms.formsets import BaseFormSet, formset_factory
-from django.forms.utils import ErrorList
-from django.forms.widgets import (
-    HiddenInput, MultipleHiddenInput, RadioSelect, SelectMultiple,
-)
-from django.utils.deprecation import RemovedInDjango40Warning
-from django.utils.text import capfirst, get_text_list
-from django.utils.translation import gettext, gettext_lazy as _
-
-
 from django import forms
 from .models import IntegerRangeField, Request, Category, Tutor, Student, Subject
 from django.contrib.auth.forms import UserCreationForm
 from .models import User
 from django.db import transaction, models
-from .widgets import DropDownWidget
+from .widgets import DropDownWidget, DropDownWidgetSingle
 
 
 class SubjectSelectField(forms.ModelMultipleChoiceField):
@@ -90,3 +72,6 @@ class StudentCreationForm(UserCreationForm):
         user.save()
         student = Student.objects.create(user=user)
         return user
+
+class TestForm(forms.Form):
+    subject = SubjectSelectField(queryset=Subject.objects.all(), groupby_list=Category.objects.all(), object_list=Subject.objects.all(), widget=DropDownWidgetSingle)

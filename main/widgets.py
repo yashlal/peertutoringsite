@@ -42,3 +42,7 @@ class DropDownWidget(forms.widgets.CheckboxSelectMultiple):
         if renderer is None:
             renderer = get_default_renderer()
         return mark_safe(renderer.render(template_name, context))
+
+
+class DropDownWidgetSingle(DropDownWidget):
+    template_name = "main/dropdown_single_template.html"
