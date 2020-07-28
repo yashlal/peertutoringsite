@@ -2,13 +2,19 @@
 
 {% block content %}
 {% load materializecss %}
+{% load dropdown_extra %}
 
   <h3>Register A New Tutor Account</h3>
   <br>
     <div class="container">
     <form method="POST">
       {% csrf_token %}
-      {{form|materializecss}}
+      {{form.username|materializecss}}
+      {{form.email|materializecss}}
+      {{form.password1|materializecss}}
+      {{form.password2|materializecss}}
+      {{form.subjects}}
+      <br>
       <button class="btn waves-effect waves-light" type="submit" name="action">Submit
         <i class="material-icons right">send</i>
       </button>

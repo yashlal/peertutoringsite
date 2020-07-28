@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Request, Category, Student, Tutor, User
+from .models import Request, Category, Student, Tutor, User, Subject
 from .forms import HelpForm, TutorCreationForm, StudentCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
@@ -128,10 +128,12 @@ def register_tutor(request):
             login(request,user)
             messages.success(request, f"Successfully registered as {username}!")
             messages.success(request, f"Logged in as {username}!")
+            print(form.cleaned_data)
             return redirect("/home")
         else:
             for msg in form.error_messages:
                 messages.error(request, f"{form.error_messages[msg]}")
+            print(form.errors)
             return render(request = request,
                           template_name = "main/register_tutor.html",
                           context={"form":form})

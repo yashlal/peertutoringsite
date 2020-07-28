@@ -9,11 +9,14 @@ class RequestAdmin(admin.ModelAdmin):
     ('Body', {'fields': ['content']}),
     ]
 
+class SubjectAdmin(admin.ModelAdmin):
+    list_display = ('name', 'category')
+
 admin.site.register(Request, RequestAdmin)
 
 admin.site.register(Category)
 
-admin.site.register(Subject)
+admin.site.register(Subject, SubjectAdmin)
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ('username', 'email', 'is_student', 'is_tutor')

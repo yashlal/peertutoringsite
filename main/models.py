@@ -40,7 +40,7 @@ class Category(models.Model):
 
 class Subject(models.Model):
     name = models.CharField(max_length = 200)
-    category = models.ForeignKey(Category, default=1, verbose_name="Category", on_delete=models.SET_DEFAULT)
+    category = models.ForeignKey(Category, default=1, verbose_name="Category", on_delete=models.SET_DEFAULT, related_name="subsubjects")
 
     def __str__(self):
         return self.name
