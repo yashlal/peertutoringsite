@@ -72,7 +72,7 @@ def community(request):
                 l.append(i.name)
 
             for i in range(0, len(Request.objects.all())):
-                if Request.objects.all()[i].category.name in l:
+                if Request.objects.all()[i].subject in l:
                     filtered_requests.append(Request.objects.all()[i])
             messages.success(request, "Showing your recommended")
             return render(request=request, template_name="main/community.html", context={'requests': filtered_requests, 'categories': Category.objects.all()})
@@ -86,6 +86,7 @@ def helpform(request):
                 helpcard = form.save(commit=False)
                 helpcard.dt = datetime.now()
                 helpcard.author = request.user
+                helpcard.category = helpcard.subject.category
                 helpcard.save()
                 return redirect("/home")
             else:
@@ -145,9 +146,13 @@ def testform(request):
     if request.method == "POST":
         form = TestForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
+            #form_instance = form.save()
+            print(form.data)
+            subject = form.cleaned_data.get("subject")
+            print(subject.name)
         else:
             print(form.errors)
+            print(form.data)
             return render(request = request,
                           template_name = "main/testform.html",
                           context={"form":form})

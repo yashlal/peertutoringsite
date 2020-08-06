@@ -61,7 +61,7 @@ class Student(models.Model):
     get_username.short_description = "Username"
 
 class Request(models.Model):
-    subject = models.CharField(max_length = 200)
+    subject = models.ForeignKey(Subject, default=1, verbose_name="Category", on_delete=models.SET_DEFAULT)
     category = models.ForeignKey(Category, default=1, verbose_name="Category", on_delete=models.SET_DEFAULT)
     author = models.CharField(max_length = 200, default="")
     grade_level = IntegerRangeField(min_value=1, max_value=12)
@@ -69,4 +69,8 @@ class Request(models.Model):
     content = models.TextField()
 
     def __str__(self):
-        return self.subject
+        return str(datetime.timestamp(self.dt))
+
+    def admin_str(self):
+        return (self.author + "-" + self.subject.name + "-" + str(self.dt))
+    admin_str.short_description = "admin_str"

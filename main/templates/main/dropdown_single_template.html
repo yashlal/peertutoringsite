@@ -1,25 +1,30 @@
 {% load dropdown_extra %}
 
-<ul class="collapsible">
-  {% for g in widget.groupby_list %}
-  <li>
-    <div class="collapsible-header">{{g.name}}</div>
-    <div class="collapsible-body">
-      {% for c in widget.choices %}
-        {% with widget.choices|get_index:c as ind %}
-          {% with widget.object_list|get_val:ind as indexed_value %}
-            {% if indexed_value.category == g %}
-              <p>
-                <label>
-                  <input type="radio" name="subject" value={{c.0}}>
-                  <span>{{c.1}}</span>
-                </label>
-              </p>
-            {% endif %}
+{% with widget.list_of_choices|fixed_choices as fixed_choices %}
+  <ul class="collapsible expandable">
+    {% for g in widget.groupby_list %}
+    <li>
+      <div class="collapsible-header">{{g.name}}</div>
+      <div class="collapsible-body">
+        {% for c in fixed_choices %}
+          {% with fixed_choices|get_index:c as ind %}
+            {% with widget.object_list|get_val:ind as indexed_value %}
+              {% if indexed_value.category == g %}
+                <p>
+                  <label>
+                    {% with widget.list_of_choices|get_val:ind as real_value %}
+                      <input type="radio" name="subject" value="{{real_value.0}}">
+
+                      <span>{{real_value.1}}</span>
+                    {% endwith %}
+                  </label>
+                </p>
+              {% endif %}
+            {% endwith %}
           {% endwith %}
-        {% endwith %}
-      {% endfor %}
-    </div>
-  </li>
-  {% endfor %}
-</ul>
+        {% endfor %}
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+{% endwith %}

@@ -9,6 +9,7 @@ class RequestAdmin(admin.ModelAdmin):
     ('Body', {'fields': ['content']}),
     ]
 
+    list_display = ['admin_str']
 class SubjectAdmin(admin.ModelAdmin):
     list_display = ('name', 'category')
 

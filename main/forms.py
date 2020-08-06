@@ -19,18 +19,34 @@ class SubjectSelectField(forms.ModelMultipleChoiceField):
         self.widget.groupby_list = self.groupby_list
         self.widget.object_list = self.object_list
 
+class SubjectSelectFieldSingle(forms.ModelChoiceField):
+    widget = DropDownWidgetSingle
+
+    def __init__(self, queryset, groupby_list, object_list, *args, **kwargs):
+
+        super().__init__(queryset=queryset, *args, **kwargs)
+
+        self.groupby_list = groupby_list
+        self.object_list = object_list
+
+        self.widget.choices = self.choices
+        self.widget.groupby_list = self.groupby_list
+        self.widget.object_list = self.object_list
 
 class HelpForm(forms.ModelForm):
+
+    subject = SubjectSelectFieldSingle(queryset=Subject.objects.all(), groupby_list=Category.objects.all(), object_list=Subject.objects.all(), widget=DropDownWidgetSingle)
+
     class Meta:
         model = Request
-        fields = ('subject', 'category', 'grade_level', 'content')
+        fields = ('subject', 'grade_level', 'content')
         widgets = {'content': forms.Textarea(), 'category': forms.RadioSelect(choices=Category.objects.all())}
         help_texts = {
         'subject': "Class for the help required",
         'grade_level': 'Grade level between 1 and 12',
         'content': 'Describe the content with which you need help',
-        'category': 'Pick a category for the subject'
-        }
+                }
+
     def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.label_suffix = ""
@@ -74,4 +90,4 @@ class StudentCreationForm(UserCreationForm):
         return user
 
 class TestForm(forms.Form):
-    subject = SubjectSelectField(queryset=Subject.objects.all(), groupby_list=Category.objects.all(), object_list=Subject.objects.all(), widget=DropDownWidgetSingle)
+    subject = SubjectSelectFieldSingle(queryset=Subject.objects.all(), groupby_list=Category.objects.all(), object_list=Subject.objects.all(), widget=DropDownWidgetSingle)
