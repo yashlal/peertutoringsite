@@ -5,11 +5,13 @@ from .models import Request, User, Category, Tutor, Student, Subject
 class RequestAdmin(admin.ModelAdmin):
     #fields = ['subject', 'grade_level', 'dt', 'content']
     fieldsets = [
-    ("Heading", {'fields': ['subject', 'category', 'author', 'grade_level', 'dt']}),
+    ("Heading", {'fields': ['subject', 'category', 'author', 'grade_level', 'dt', 'slug']}),
     ('Body', {'fields': ['content']}),
     ]
 
     list_display = ['admin_str']
+
+    readonly_fields = ['slug']
 class SubjectAdmin(admin.ModelAdmin):
     list_display = ('name', 'category')
 

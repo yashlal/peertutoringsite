@@ -67,6 +67,7 @@ class Request(models.Model):
     grade_level = IntegerRangeField(min_value=1, max_value=12)
     dt = models.DateTimeField("DateTime Published", default=datetime.now)
     content = models.TextField()
+    slug = models.TextField(default=str(datetime.timestamp(datetime.now())))
 
     def __str__(self):
         return str(datetime.timestamp(self.dt))

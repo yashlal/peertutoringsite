@@ -13,5 +13,6 @@ urlpatterns = [
     path('logout/', views.logout_request, name="logout"),
     path('login/', views.login_request, name="login"),
     path('profile/', views.profile, name='profile'),
-    path('testform/', views.testform, name="testform")
+    path('testform/', views.testform, name="testform"),
+    path('requests/<id>/', views.connection_page, name="connection_page"),
 ]

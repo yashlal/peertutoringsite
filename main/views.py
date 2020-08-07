@@ -159,3 +159,8 @@ def testform(request):
 
     form = TestForm
     return render(request=request, template_name="main/testform.html", context={'form': form})
+
+def connection_page(request, id):
+    r = Request.objects.all().filter(slug=id)[0]
+
+    return render(request=request, template_name="main/connection_page.html", context={'Request': r})
