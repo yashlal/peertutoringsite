@@ -77,6 +77,16 @@ def community(request):
             messages.success(request, "Showing your recommended")
             return render(request=request, template_name="main/community.html", context={'requests': filtered_requests, 'categories': Category.objects.all()})
 
+    if request.method == "POST":
+        id_var = request.POST.get("helpcard_button")
+        r = Request.objects.all().filter(slug=id_var)[0]
+        r.tutor_accepted = request.user.user_reverse
+        r.chosen_bool = True
+        r.save(update_fields=["tutor_accepted", "chosen_bool"])
+        s = str(r.slug)
+        return redirect('../requests/%s' % s)
+
+
 @user_passes_test(User.check_student, '/home')
 def helpform(request):
     if request.method == "POST":
@@ -163,4 +173,11 @@ def testform(request):
 def connection_page(request, id):
     r = Request.objects.all().filter(slug=id)[0]
 
-    return render(request=request, template_name="main/connection_page.html", context={'Request': r})
+    if (request.user.username == r.author) or (request.user.user_reverse == r.tutor_accepted):
+
+        s = str(r.slug)
+
+        return render(request=request, template_name="main/connection_page.html", context={'Request': r})
+    else:
+        return redirect("/")
+        messages.error(request, "You do not have access to this page")

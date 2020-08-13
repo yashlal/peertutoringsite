@@ -31,7 +31,10 @@
               <p>{{req.content}}</p>
             </div>
             <div class="card-action">
-              <a href="/requests/{{req.slug}}">This is a link</a>
+              <form class="" action="." method="POST">
+                {% csrf_token %}
+                <button class="btn" name="helpcard_button" value={{req.slug}}>Select Request</button>
+              </form>
             </div>
           </div>
         </div>

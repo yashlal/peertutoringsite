@@ -3,3 +3,7 @@
 
 2. Radio Button broken stylesheet
   -Check against original stylesheet
+
+3. AnonymousUSer case for authorizing access to request conxn page
+  Logic is messed up
+  make if is_student and if is_tutor cases clauses

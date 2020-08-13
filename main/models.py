@@ -53,8 +53,11 @@ class Tutor(models.Model):
         return ("%s" % (self.user.username))
     get_username.short_description = "Username"
 
+    def __str__(self):
+        return self.user.username
+
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="student_reverse")
 
     def get_username(self):
         return ("%s" % (self.user.username))
@@ -68,9 +71,11 @@ class Request(models.Model):
     dt = models.DateTimeField("DateTime Published", default=datetime.now)
     content = models.TextField()
     slug = models.TextField(default=str(datetime.timestamp(datetime.now())))
+    tutor_accepted = models.ForeignKey(Tutor, blank=True, null=True, on_delete=models.SET_NULL)
+    chosen_bool = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(datetime.timestamp(self.dt))
+        return self.slug
 
     def admin_str(self):
         return (self.author + "-" + self.subject.name + "-" + str(self.dt))
